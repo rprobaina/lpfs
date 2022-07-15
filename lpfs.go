@@ -2,6 +2,7 @@ package lpfs
 
 import (
 	//"io/ioutil"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -19,6 +20,7 @@ var (
 func GetLoadAverage1() (float64, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
 	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
 		return 0.0, err
 	}
 
@@ -26,6 +28,7 @@ func GetLoadAverage1() (float64, error) {
 
 	lavg, err := strconv.ParseFloat(dat_s, 32)
 	if err != nil {
+		fmt.Errorf("error parsing %v to float", dat_s)
 		return 0.0, err
 	}
 
@@ -36,6 +39,7 @@ func GetLoadAverage1() (float64, error) {
 func GetLoadAverage5() (float64, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
 	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
 		return 0.0, err
 	}
 
@@ -43,6 +47,7 @@ func GetLoadAverage5() (float64, error) {
 
 	lavg, err := strconv.ParseFloat(dat_s, 32)
 	if err != nil {
+		fmt.Errorf("error parsing %v to float", dat_s)
 		return 0.0, err
 	}
 
@@ -53,6 +58,7 @@ func GetLoadAverage5() (float64, error) {
 func GetLoadAverage15() (float64, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
 	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
 		return 0.0, err
 	}
 
@@ -60,6 +66,7 @@ func GetLoadAverage15() (float64, error) {
 
 	lavg, err := strconv.ParseFloat(dat_s, 32)
 	if err != nil {
+		fmt.Errorf("error parsing %v to float", dat_s)
 		return 0.0, err
 	}
 
