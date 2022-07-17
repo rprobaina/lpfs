@@ -72,3 +72,61 @@ func GetLoadAverage15() (float64, error) {
 
 	return lavg, nil
 }
+
+
+//	GetRunnableQueueSize returns the number of currently runnable tasks.
+func GetRunnableQueueSize() (int, error) {
+	dat, err := os.ReadFile(PROCDIR_LOADAVG)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
+		return 0.0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[3]
+
+	runq, err := strconv.Atoi(strings.Split(dat_s, "/")[0])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0.0, err
+	}
+
+	return  runq, err
+}
+
+//	GetTaskQueueSize returns the number of existing tasks in the system.
+func GetTaskQueueSize() (int, error) {
+	dat, err := os.ReadFile(PROCDIR_LOADAVG)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
+		return 0.0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[3]
+
+	tskq, err := strconv.Atoi(strings.Split(dat_s, "/")[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0.0, err
+	}
+
+	return  tskq, err
+}
+
+//	GetMostRecentPid returns the the PID of the process that was most recently created on the system.
+func GetMostRecentPid() (int, error) {
+	dat, err := os.ReadFile(PROCDIR_LOADAVG)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
+		return 0.0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[4]
+
+	pid, err := strconv.Atoi(dat_s[:len(dat_s)-1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0.0, err
+	}
+
+	return pid, nil
+}
