@@ -79,7 +79,7 @@ func GetRunnableQueueSize() (int, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
 	if err != nil {
 		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
-		return 0.0, err
+		return 0, err
 	}
 
 	dat_s := strings.Split(string(dat), " ")[3]
@@ -87,7 +87,7 @@ func GetRunnableQueueSize() (int, error) {
 	runq, err := strconv.Atoi(strings.Split(dat_s, "/")[0])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
-		return 0.0, err
+		return 0, err
 	}
 
 	return  runq, err
@@ -98,7 +98,7 @@ func GetTaskQueueSize() (int, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
 	if err != nil {
 		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
-		return 0.0, err
+		return 0, err
 	}
 
 	dat_s := strings.Split(string(dat), " ")[3]
@@ -106,7 +106,7 @@ func GetTaskQueueSize() (int, error) {
 	tskq, err := strconv.Atoi(strings.Split(dat_s, "/")[1])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
-		return 0.0, err
+		return 0, err
 	}
 
 	return  tskq, err
@@ -117,7 +117,7 @@ func GetMostRecentPid() (int, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
 	if err != nil {
 		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
-		return 0.0, err
+		return 0, err
 	}
 
 	dat_s := strings.Split(string(dat), " ")[4]
@@ -125,8 +125,24 @@ func GetMostRecentPid() (int, error) {
 	pid, err := strconv.Atoi(dat_s[:len(dat_s)-1])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
-		return 0.0, err
+		return 0, err
 	}
 
 	return pid, nil
+}
+
+
+//	GetSwapFilename returns the swap partition filename.
+func GetSwapFilename() (string, error) {
+        dat, err := os.ReadFile(PROCDIR_SWAPS)
+        if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
+		return "", err
+        }
+
+        dat_s := strings.Split(string(dat), "\n")
+
+        s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[0]
+
+        return s, err;
 }
