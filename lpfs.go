@@ -131,7 +131,6 @@ func GetMostRecentPid() (int, error) {
 	return pid, nil
 }
 
-
 //	GetSwapFilename returns the swap partition filename.
 func GetSwapFilename() (string, error) {
         dat, err := os.ReadFile(PROCDIR_SWAPS)
@@ -143,6 +142,21 @@ func GetSwapFilename() (string, error) {
         dat_s := strings.Split(string(dat), "\n")
 
         s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[0]
+
+        return s, err;
+}
+
+//	GetSwapType returns the swap partition type.
+func GetSwapType() (string, error) {
+        dat, err := os.ReadFile(PROCDIR_SWAPS)
+        if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
+		return "", err
+        }
+
+        dat_s := strings.Split(string(dat), "\n")
+
+        s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[1]
 
         return s, err;
 }
