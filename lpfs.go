@@ -73,7 +73,6 @@ func GetLoadAverage15() (float64, error) {
 	return lavg, nil
 }
 
-
 //	GetRunnableQueueSize returns the number of currently runnable tasks.
 func GetRunnableQueueSize() (int, error) {
 	dat, err := os.ReadFile(PROCDIR_LOADAVG)
@@ -90,7 +89,7 @@ func GetRunnableQueueSize() (int, error) {
 		return 0, err
 	}
 
-	return  runq, err
+	return runq, err
 }
 
 //	GetTaskQueueSize returns the number of existing tasks in the system.
@@ -109,7 +108,7 @@ func GetTaskQueueSize() (int, error) {
 		return 0, err
 	}
 
-	return  tskq, err
+	return tskq, err
 }
 
 //	GetMostRecentPid returns the the PID of the process that was most recently created on the system.
@@ -133,30 +132,87 @@ func GetMostRecentPid() (int, error) {
 
 //	GetSwapFilename returns the swap partition filename.
 func GetSwapFilename() (string, error) {
-        dat, err := os.ReadFile(PROCDIR_SWAPS)
-        if err != nil {
+	dat, err := os.ReadFile(PROCDIR_SWAPS)
+	if err != nil {
 		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
 		return "", err
-        }
+	}
 
-        dat_s := strings.Split(string(dat), "\n")
+	dat_s := strings.Split(string(dat), "\n")
 
-        s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[0]
+	s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[0]
 
-        return s, err;
+	return s, err
 }
 
 //	GetSwapType returns the swap partition type.
 func GetSwapType() (string, error) {
-        dat, err := os.ReadFile(PROCDIR_SWAPS)
-        if err != nil {
+	dat, err := os.ReadFile(PROCDIR_SWAPS)
+	if err != nil {
 		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
 		return "", err
-        }
+	}
 
-        dat_s := strings.Split(string(dat), "\n")
+	dat_s := strings.Split(string(dat), "\n")
 
-        s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[1]
+	s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[1]
 
-        return s, err;
+	return s, err
+}
+
+//	GetSwapSize returns the swap partition total size.
+func GetSwapSize() (int, error) {
+	dat, err := os.ReadFile(PROCDIR_SWAPS)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[2])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
+}
+
+//	GetSwapUsed returns the swap partition used size.
+func GetSwapUsed() (int, error) {
+	dat, err := os.ReadFile(PROCDIR_SWAPS)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[3])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
+}
+
+//	GetSwapPriority returns the swap partition priority.
+func GetSwapPriority() (int, error) {
+	dat, err := os.ReadFile(PROCDIR_SWAPS)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_SWAPS)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[4])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
 }
