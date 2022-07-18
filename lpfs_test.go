@@ -57,4 +57,22 @@ func TestSwaps(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 	fmt.Printf("GetSwapType(): %v, err: %v\n", st, err)
+
+	ss, err := GetSwapSize()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetSwapSize(): %v, err: %v\n", ss, err)
+
+	su, err := GetSwapUsed()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetSwapUsed(): %v, err: %v\n", su, err)
+
+	sp, err := GetSwapPriority()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetSwapPriority(): %v, err: %v\n", sp, err)
 }
