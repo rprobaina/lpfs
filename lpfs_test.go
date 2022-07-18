@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-//	TestLoadAverage test all functions that get data from /proc/loadavg.
+//	TestLoadAverage tests all functions that get data from /proc/loadavg.
 func TestLoadAverage(t *testing.T) {
 	l1, err := GetLoadAverage1()
 	if err != nil {
@@ -42,4 +42,19 @@ func TestLoadAverage(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 	fmt.Printf("GetMostRecentPid(): %v, err: %v\n", pid, err)
+}
+
+//	TestSwaps tests all functions that get data from /proc/swaps.
+func TestSwaps(t *testing.T) {
+	sf, err := GetSwapFilename()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetSwapFilename(): %v, err: %v\n", sf, err)
+
+	st, err := GetSwapType()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetSwapType(): %v, err: %v\n", st, err)
 }
