@@ -76,3 +76,18 @@ func TestSwaps(t *testing.T) {
 	}
 	fmt.Printf("GetSwapPriority(): %v, err: %v\n", sp, err)
 }
+
+//	TestUptime tests all functions that get data from /proc/uptime.
+func TestUptime(t *testing.T) {
+	us, err := GetUptimeSystem()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetUptimeSystem(): %v, err: %v\n", us, err)
+
+	ui, err := GetUptimeIdle()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetUptimeIdle(): %v, err: %v\n", ui, err)
+}
