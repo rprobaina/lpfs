@@ -8,11 +8,12 @@ import (
 	"strings"
 )
 
-var (
+const (
 	PROCDIR         string = "/proc"
 	PROCDIR_LOADAVG string = "/proc/loadavg"
 	PROCDIR_MEMINFO string = "/proc/meminfo"
 	PROCDIR_SWAPS   string = "/proc/swaps"
+	procdir_uptime  string = "/proc/uptime"
 	STATUSFILE      string = "stat"
 )
 
@@ -215,4 +216,42 @@ func GetSwapPriority() (int, error) {
 	}
 
 	return s, err
+}
+
+//	GetUptimeSystem returns the uptime of the system (seconds).
+func GetUptimeSystem() (float64, error) {
+	dat, err := os.ReadFile(procdir_uptime)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
+		return 0.0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[0]
+
+	us, err := strconv.ParseFloat(dat_s, 32)
+	if err != nil {
+		fmt.Errorf("error parsing %v to float", dat_s)
+		return 0.0, err
+	}
+
+	return us, nil
+}
+
+//	GetUptimeIdle returns the amount of time spent in idle process (seconds).
+func GetUptimeIdle() (float64, error) {
+	dat, err := os.ReadFile(procdir_uptime)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", PROCDIR_LOADAVG)
+		return 0.0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[1]
+
+	ui, err := strconv.ParseFloat(dat_s[:len(dat_s) - 1], 32)
+	if err != nil {
+		fmt.Errorf("error parsing %v to float", dat_s)
+		return 0.0, err
+	}
+
+	return ui, nil
 }
