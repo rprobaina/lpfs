@@ -91,3 +91,23 @@ func TestUptime(t *testing.T) {
 	}
 	fmt.Printf("GetUptimeIdle(): %v, err: %v\n", ui, err)
 }
+
+//	TestStat tests all functions that get data from /proc/stat.
+/*
+func TestStat(t *testing.T) {
+	blksz, err := GetProcessesBlockedSize()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetProcessesBlockedSize(): %v, err: %v\n", blksz, err)
+}
+*/
+
+// 	TestPerProcess tests all functions that get data from /proc/<pid>/.
+func TestPerProcess(t *testing.T) {
+	ppStat, err := GetPerProcessStat()
+	if err != nil {
+		t.Errorf("%#v", err)
+	}
+	fmt.Printf("GetPerProcessStat(): %v, err: %v\n", ppStat, err)
+}
