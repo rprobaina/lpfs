@@ -110,4 +110,10 @@ func TestPerProcess(t *testing.T) {
 		t.Errorf("%#v", err)
 	}
 	fmt.Printf("GetPerProcessStat(): %v, err: %v\n", ppStat, err)
+
+	ps, err := GetProcessStat(1)	
+	if err != nil {
+		t.Errorf("%#v", err)
+	}
+	fmt.Printf("GetProcessStat(1): %v, err: %v\n", ps, err)
 }
