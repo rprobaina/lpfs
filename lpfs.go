@@ -196,6 +196,9 @@ func GetSwapFilename() (string, error) {
 	}
 
 	dat_s := strings.Split(string(dat), "\n")
+	if dat_s[1] == "" {
+		return "", fmt.Errorf("no swap partition")
+	}
 
 	s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[0]
 
@@ -211,6 +214,9 @@ func GetSwapType() (string, error) {
 	}
 
 	dat_s := strings.Split(string(dat), "\n")
+	if dat_s[1] == "" {
+		return "", fmt.Errorf("no swap partition")
+	}
 
 	s := strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[1]
 
@@ -226,6 +232,9 @@ func GetSwapSize() (int, error) {
 	}
 
 	dat_s := strings.Split(string(dat), "\n")
+	if dat_s[1] == "" {
+		return 0, fmt.Errorf("no swap partition")
+	}
 
 	s, err := strconv.Atoi(strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[2])
 	if err != nil {
@@ -245,6 +254,9 @@ func GetSwapUsed() (int, error) {
 	}
 
 	dat_s := strings.Split(string(dat), "\n")
+	if dat_s[1] == "" {
+		return 0, fmt.Errorf("no swap partition")
+	}
 
 	s, err := strconv.Atoi(strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[3])
 	if err != nil {
@@ -264,6 +276,9 @@ func GetSwapPriority() (int, error) {
 	}
 
 	dat_s := strings.Split(string(dat), "\n")
+	if dat_s[1] == "" {
+		return 0, fmt.Errorf("no swap partition")
+	}
 
 	s, err := strconv.Atoi(strings.Split(strings.Join(strings.Fields(strings.TrimSpace(dat_s[1])), " "), " ")[4])
 	if err != nil {
