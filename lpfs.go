@@ -408,288 +408,303 @@ func GetProcessStat(pid int) (Procstat, error) {
 		return Procstat{}, err
 	}
 
-	p.Comm = string(dat_s[1])[1 : len(dat_s[1])-1]
-	p.State = dat_s[2]
+	// Verify quantity of Comm words in dat_s
+	wrd := 52 - len(dat_s)
 
-	p.Pgrp, err = strconv.Atoi(dat_s[4])
+	if wrd != 0 {
+		wrd *= -1
+
+		var Comm strings.Builder
+
+		for i := 1; i < wrd+2; i++ {
+			Comm.WriteString(dat_s[i])
+		}
+		p.Comm = Comm.String()[1 : len(Comm.String())-1]
+	} else {
+		p.Comm = string(dat_s[1])[1 : len(dat_s[1])-1]
+	}
+
+	p.State = dat_s[2+wrd]
+
+	p.Pgrp, err = strconv.Atoi(dat_s[4+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Session, err = strconv.Atoi(dat_s[5])
+	p.Session, err = strconv.Atoi(dat_s[5+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.TtyNr, err = strconv.Atoi(dat_s[6])
+	p.TtyNr, err = strconv.Atoi(dat_s[6+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Tpgid, err = strconv.Atoi(dat_s[7])
+	p.Tpgid, err = strconv.Atoi(dat_s[7+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Flags, err = strconv.Atoi(dat_s[8])
+	p.Flags, err = strconv.Atoi(dat_s[8+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Minflt, err = strconv.Atoi(dat_s[9])
+	p.Minflt, err = strconv.Atoi(dat_s[9+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Cminflt, err = strconv.Atoi(dat_s[10])
+	p.Cminflt, err = strconv.Atoi(dat_s[10+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Majflt, err = strconv.Atoi(dat_s[11])
+	p.Majflt, err = strconv.Atoi(dat_s[11+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Cmajflt, err = strconv.Atoi(dat_s[12])
+	p.Cmajflt, err = strconv.Atoi(dat_s[12+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Utime, err = strconv.Atoi(dat_s[13])
+	p.Utime, err = strconv.Atoi(dat_s[13+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Stime, err = strconv.Atoi(dat_s[14])
+	p.Stime, err = strconv.Atoi(dat_s[14+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Cutime, err = strconv.Atoi(dat_s[15])
+	p.Cutime, err = strconv.Atoi(dat_s[15+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Cstime, err = strconv.Atoi(dat_s[16])
+	p.Cstime, err = strconv.Atoi(dat_s[16+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Priority, err = strconv.Atoi(dat_s[17])
+	p.Priority, err = strconv.Atoi(dat_s[17+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Nice, err = strconv.Atoi(dat_s[18])
+	p.Nice, err = strconv.Atoi(dat_s[18+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.NumThreads, err = strconv.Atoi(dat_s[19])
+	p.NumThreads, err = strconv.Atoi(dat_s[19+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Itrealvalue, err = strconv.Atoi(dat_s[20])
+	p.Itrealvalue, err = strconv.Atoi(dat_s[20+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Starttime, err = strconv.Atoi(dat_s[21])
+	p.Starttime, err = strconv.Atoi(dat_s[21+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Vsize, err = strconv.Atoi(dat_s[22])
+	p.Vsize, err = strconv.Atoi(dat_s[22+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Rss, err = strconv.Atoi(dat_s[23])
+	p.Rss, err = strconv.Atoi(dat_s[23+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Rsslim = dat_s[24]
+	p.Rsslim = dat_s[24+wrd]
 
-	p.Startcode, err = strconv.Atoi(dat_s[25])
+	p.Startcode, err = strconv.Atoi(dat_s[25+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Endcode, err = strconv.Atoi(dat_s[26])
+	p.Endcode, err = strconv.Atoi(dat_s[26+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Startstack, err = strconv.Atoi(dat_s[27])
+	p.Startstack, err = strconv.Atoi(dat_s[27+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Kstkesp, err = strconv.Atoi(dat_s[28])
+	p.Kstkesp, err = strconv.Atoi(dat_s[28+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Kstkeip, err = strconv.Atoi(dat_s[29])
+	p.Kstkeip, err = strconv.Atoi(dat_s[29+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Signal, err = strconv.Atoi(dat_s[30])
+	p.Signal, err = strconv.Atoi(dat_s[30+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Blocked, err = strconv.Atoi(dat_s[31])
+	p.Blocked, err = strconv.Atoi(dat_s[31+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Sigignore, err = strconv.Atoi(dat_s[32])
+	p.Sigignore, err = strconv.Atoi(dat_s[32+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Sigcatch, err = strconv.Atoi(dat_s[33])
+	p.Sigcatch, err = strconv.Atoi(dat_s[33+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Wchan, err = strconv.Atoi(dat_s[34])
+	p.Wchan, err = strconv.Atoi(dat_s[34+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Nswap, err = strconv.Atoi(dat_s[35])
+	p.Nswap, err = strconv.Atoi(dat_s[35+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Cnswap, err = strconv.Atoi(dat_s[36])
+	p.Cnswap, err = strconv.Atoi(dat_s[36+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.ExitSignal, err = strconv.Atoi(dat_s[37])
+	p.ExitSignal, err = strconv.Atoi(dat_s[37+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Processor, err = strconv.Atoi(dat_s[38])
+	p.Processor, err = strconv.Atoi(dat_s[38+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.RtPriority, err = strconv.Atoi(dat_s[39])
+	p.RtPriority, err = strconv.Atoi(dat_s[39+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.Policy, err = strconv.Atoi(dat_s[40])
+	p.Policy, err = strconv.Atoi(dat_s[40+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.DelayacctBlkioTicks, err = strconv.Atoi(dat_s[41])
+	p.DelayacctBlkioTicks, err = strconv.Atoi(dat_s[41+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.GuestTime, err = strconv.Atoi(dat_s[42])
+	p.GuestTime, err = strconv.Atoi(dat_s[42+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.CguestTime, err = strconv.Atoi(dat_s[43])
+	p.CguestTime, err = strconv.Atoi(dat_s[43+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.StartData, err = strconv.Atoi(dat_s[44])
+	p.StartData, err = strconv.Atoi(dat_s[44+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.EndData, err = strconv.Atoi(dat_s[45])
+	p.EndData, err = strconv.Atoi(dat_s[45+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.StartBrk, err = strconv.Atoi(dat_s[46])
+	p.StartBrk, err = strconv.Atoi(dat_s[46+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.ArgStart, err = strconv.Atoi(dat_s[47])
+	p.ArgStart, err = strconv.Atoi(dat_s[47+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.ArgEnd, err = strconv.Atoi(dat_s[48])
+	p.ArgEnd, err = strconv.Atoi(dat_s[48+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.EnvStart, err = strconv.Atoi(dat_s[49])
+	p.EnvStart, err = strconv.Atoi(dat_s[49+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.EnvEnd, err = strconv.Atoi(dat_s[50])
+	p.EnvEnd, err = strconv.Atoi(dat_s[50+wrd])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
 	}
 
-	p.ExitCode, err = strconv.Atoi(string(dat_s[51])[:len(dat_s[51])-1])
+	p.ExitCode, err = strconv.Atoi(string(dat_s[51+wrd])[:len(dat_s[51+wrd])-1])
 	if err != nil {
 		fmt.Errorf("error parsing %v", dat_s)
 		return Procstat{}, err
