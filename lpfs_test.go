@@ -117,3 +117,44 @@ func TestPerProcess(t *testing.T) {
 	}
 	fmt.Printf("GetProcessStat(1): %v, err: %v\n", ps, err)
 }
+
+//	TestMeminfo tests all functions that get from /proc/meminfo
+func TestMeminfo(t *testing.T) {
+
+	mt, err := GetMemTotal()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetMemTotal(): %v, err: %v\n", mt, err)
+
+	mf, err := GetMemFree()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetMemFree(): %v, err: %v\n", mf, err)
+
+	mu, err := GetMemUsed()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetMemUsed(): %v, err: %v\n", mu, err)
+
+	ma, err := GetMemAvailable()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetMemAvailable(): %v, err: %v\n", ma, err)
+
+	mb, err := GetMemBuffers()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetMemBuffers(): %v, err: %v\n", mb, err)
+
+	mc, err := GetMemCached()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetMemCached(): %v, err: %v\n", mc, err)
+
+}
