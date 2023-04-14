@@ -156,5 +156,13 @@ func TestMeminfo(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 	fmt.Printf("GetMemCached(): %v, err: %v\n", mc, err)
+}
 
+//	TestVersion tests all functions that get data from /proc/version.
+func TestVersion(t *testing.T) {
+	kr , err := GetKernelRelease()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetKernelRelease(): %v, err: %v\n", kr, err)
 }
