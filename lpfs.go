@@ -328,6 +328,186 @@ func GetUptimeIdle() (float64, error) {
 	return ui, nil
 }
 
+//	GetCpuUserTime returns the amount of time spent in user mode (USER_HZ).
+func GetCpuUserTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[2]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuNiceTime returns the amount of time spent in user mode with low priority (USER_HZ).
+func GetCpuNiceTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[3]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuSystemTime returns the amount of time spent in system mode (USER_HZ).
+func GetCpuSystemTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[4]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuIdleTime returns the amount of time spent in the idle task (USER_HZ times UptimeIdle).
+func GetCpuIdleTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[5]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuIowaitTime returns the amount of time waiting for I/O to complete (USER_HZ).
+func GetCpuIowaitTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[6]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuIrqTime returns the amount of time servicing interrupts (USER_HZ).
+func GetCpuIrqTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[7]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuSoftirqTime returns the amount of time servicing softirqs(USER_HZ).
+func GetCpuSoftirqTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[8]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuStealTime returns the amount of time spent in other operating systems when running in a virtualized environment (USER_HZ).
+func GetCpuStealTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[9]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuGuestTime returns the amount of time spent running a virtual CPU for guest operating systems (USER_HZ).
+func GetCpuGuestTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[10]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
+//	GetCpuGuestNiceTime returns the amount of time spent running a niced virtual CPU for guest operating systems (USER_HZ).
+func GetCpuGuestNiceTime() (int, error) {
+	dat, err := os.ReadFile(procdir_stat)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_stat)
+		return 0, err
+	}
+
+	dat_s := strings.Split(string(dat), " ")[11]
+
+	s, err := strconv.Atoi(dat_s)
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+	}
+
+	return s, nil
+}
+
 //	GetProcessesBlockedSize returns the number of blocked processes in the system.
 // 	FIXME
 func GetProcessesBlockedSize() (int, error) {
