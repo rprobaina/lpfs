@@ -15,6 +15,7 @@ const (
 	procdir_stat             string = "/proc/stat"
 	procdir_uptime           string = "/proc/uptime"
 	procdir_per_process_stat string = "/stat"
+	procdir_meminfo			 string = "/proc/meminfo"
 )
 
 //	Procstat contains process stat available in /proc/<pid>/stat.
@@ -711,4 +712,118 @@ func GetProcessStat(pid int) (Procstat, error) {
 	}
 
 	return p, nil
+}
+
+//	GetMemTotal returns the total memory
+func GetMemTotal() (int, error) {
+	dat, err := os.ReadFile(procdir_meminfo)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_meminfo)
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Fields(dat_s[0])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
+}
+
+//	GetMemFree returns the free memory
+func GetMemFree() (int, error) {
+	dat, err := os.ReadFile(procdir_meminfo)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_meminfo)
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Fields(dat_s[1])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
+}
+
+//	GetMemUsed returns the memory used
+func GetMemUsed() (int, error) {
+	dat, err := os.ReadFile(procdir_meminfo)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_meminfo)
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	t, err := strconv.Atoi(strings.Fields(dat_s[0])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	f, err := strconv.Atoi(strings.Fields(dat_s[1])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return t - f, err
+}
+
+//	GetMemAvailable returns available memory
+func GetMemAvailable() (int, error) {
+	dat, err := os.ReadFile(procdir_meminfo)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_meminfo)
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Fields(dat_s[2])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
+}
+
+//	GetMemBuffers returns the memory buffers
+func GetMemBuffers() (int, error) {
+	dat, err := os.ReadFile(procdir_meminfo)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_meminfo)
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Fields(dat_s[3])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
+}
+
+//	GetMemCached returns the memory cached
+func GetMemCached() (int, error) {
+	dat, err := os.ReadFile(procdir_meminfo)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_meminfo)
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	s, err := strconv.Atoi(strings.Fields(dat_s[4])[1])
+	if err != nil {
+		fmt.Errorf("error parsing %v", dat_s)
+		return 0, err
+	}
+
+	return s, err
 }
