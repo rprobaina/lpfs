@@ -93,15 +93,74 @@ func TestUptime(t *testing.T) {
 }
 
 //	TestStat tests all functions that get data from /proc/stat.
-/*
 func TestStat(t *testing.T) {
+	ut, err := GetCpuUserTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuUserTime(): %v, err: %v\n", ut, err)
+
+	nt, err := GetCpuNiceTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuNiceTime(): %v, err: %v\n", nt, err)
+
+	syst, err := GetCpuSystemTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuSystemTime(): %v, err: %v\n", syst, err)
+
+	it, err := GetCpuIdleTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuIdleTime(): %v, err: %v\n", it, err)
+
+	iot, err := GetCpuIowaitTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuIowaitTime(): %v, err: %v\n", iot, err)
+
+	irqt, err := GetCpuIrqTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuIrqTime(): %v, err: %v\n", irqt, err)
+
+	sirqt, err := GetCpuSoftirqTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuSoftirqTime(): %v, err: %v\n", sirqt, err)
+
+	st, err := GetCpuStealTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuStealTime(): %v, err: %v\n", st, err)
+
+	gt, err := GetCpuGuestTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuGuestTime(): %v, err: %v\n", gt, err)
+
+	gnt, err := GetCpuGuestNiceTime()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetCpuGuestNiceTime(): %v, err: %v\n", gnt, err)
+/*
 	blksz, err := GetProcessesBlockedSize()
 	if err != nil {
 		t.Errorf("%v", err)
 	}
 	fmt.Printf("GetProcessesBlockedSize(): %v, err: %v\n", blksz, err)
-}
 */
+}
 
 // 	TestPerProcess tests all functions that get data from /proc/<pid>/.
 func TestPerProcess(t *testing.T) {
