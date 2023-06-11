@@ -16,7 +16,7 @@ const (
 	procdir_uptime           string = "/proc/uptime"
 	procdir_per_process_stat string = "/stat"
 	procdir_meminfo		 string = "/proc/meminfo"
-	procdir_version		 string = "/proc/version"
+	procdir_osrelease	 string = "/proc/sys/kernel/osrelease"
 )
 
 //	Procstat contains process stat available in /proc/<pid>/stat.
@@ -816,14 +816,11 @@ func GetMemCached() (int, error) {
 
 //	GetKernelRelease returns the kernel version with additional information.
 func GetKernelRelease() (string, error) {
-	dat, err := os.ReadFile(procdir_version)
+	dat, err := os.ReadFile(procdir_osrelease)
 	if err != nil {
-		fmt.Errorf("unable to read the file %v", procdir_version)
+		fmt.Errorf("unable to read the file %v", procdir_osrelease)
+		return "", err
 	}
 
-	dat_s := strings.Split(string(dat), " ")
-
-	s := strings.Fields(dat_s[2])[0]
-
-	return s, err
+	return string(dat), err
 }
