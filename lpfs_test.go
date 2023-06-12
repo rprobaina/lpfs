@@ -215,5 +215,13 @@ func TestMeminfo(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 	fmt.Printf("GetMemCached(): %v, err: %v\n", mc, err)
+}
 
+//	TestSysKernel tests all functions that get data from /proc/sys/kernel.
+func TestSysKernel(t *testing.T) {
+	kr , err := GetKernelRelease()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetKernelRelease(): %v, err: %v\n", kr, err)
 }
