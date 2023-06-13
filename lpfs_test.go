@@ -225,3 +225,12 @@ func TestSysKernel(t *testing.T) {
 	}
 	fmt.Printf("GetKernelRelease(): %v, err: %v\n", kr, err)
 }
+
+//	TestModules tests all functions that get data from /proc/modules.
+func TestModules(t *testing.T) {
+	km, err := GetKernelModules()
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+	fmt.Printf("GetKernelModules(): %v, err %v\n", km, err)
+}
