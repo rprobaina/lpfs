@@ -17,6 +17,7 @@ const (
 	procdir_per_process_stat string = "/stat"
 	procdir_meminfo		 string = "/proc/meminfo"
 	procdir_osrelease	 string = "/proc/sys/kernel/osrelease"
+	procdir_modules		 string = "/proc/modules"
 )
 
 //	Procstat contains process stat available in /proc/<pid>/stat.
@@ -73,6 +74,16 @@ type Procstat struct {
 	EnvStart            int
 	EnvEnd              int
 	ExitCode            int
+}
+
+//	Module contains loaded kernel module information available in /proc/modules.
+type Module struct {
+	Name	 	string
+	Size		int
+	Instances	int
+	UsedBy		[]string
+	State		string
+	MemOffset	string
 }
 
 //	GetLoadAverage1 returns the load average over the last minute.
@@ -1003,4 +1014,55 @@ func GetKernelRelease() (string, error) {
 	}
 
 	return string(dat), err
+}
+
+//	GetKernelModules returns a slice of Module containing kernel modules currently loaded.
+func GetKernelModules() ([]Module, error) {
+	dat, err := os.ReadFile(procdir_modules)
+	if err != nil {
+		fmt.Errorf("unable to read the file %v", procdir_modules)
+		return []Module{}, err
+	}
+
+	dat_s := strings.Split(string(dat), "\n")
+
+	var km []Module
+
+	for i, s := 0, len(dat_s)-1; i < s; i++ {
+
+		dat_f := strings.Fields(dat_s[i])
+
+		var m Module
+
+		m.Name = dat_f[0]
+
+		m.Size, err = strconv.Atoi(dat_f[1])
+		if err != nil {
+			fmt.Errorf("unable to parse %v", procdir_modules)
+			return []Module{}, err
+		}
+
+		m.Instances, err = strconv.Atoi(dat_f[2])
+		if err != nil {
+			fmt.Errorf("unable to parse %v", procdir_modules)
+			return []Module{}, err
+		}
+
+		if dat_f[3] != "-" {
+			used := strings.Split(dat_f[3], ",")
+			used_s := used[:len(used)-1]
+
+			for _, s := range used_s {
+				m.UsedBy = append(m.UsedBy, s)
+			}
+		}
+
+		m.State = dat_f[4]
+
+		m.MemOffset = dat_f[5]
+
+		km = append(km, m)
+	}
+
+	return km, nil
 }
